@@ -49,10 +49,10 @@ const Home = () => {
           transition={{ duration: 0.7 }}
           className="text-5xl md:text-7xl font-bold leading-tight"
         >
-          Turn Your Ideas into
+          The Fastest Way to Build
           <br />
           <span className="bg-linear-to-r from-purple-400 to-indigo-500 bg-clip-text text-transparent">
-            Beautiful Websites with AI
+            Websites with AI
           </span>
         </motion.h1>
 
@@ -63,8 +63,8 @@ const Home = () => {
           transition={{ delay: 0.2 }}
           className="max-w-2xl mx-auto mt-6 text-lg text-gray-400"
         >
-          Generate stunning, fully responsive websites instantly using AI.
-          No coding required. Perfect for startups, creators and freelancers.
+          From concept to a fully responsive website in seconds.
+          No coding. No design skills. Just your imagination.
         </motion.p>
 
         {/* Buttons */}
