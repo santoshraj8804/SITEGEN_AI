@@ -28,8 +28,9 @@ const rootReducer = combineReducers({
 
 // 2. Define the configuration for redux-persist
 const persistConfig = {
-  key: 'root',
-  storage,
+  key: 'Sitegen-AI',
+  version: 1,
+  storage: storage.default
   // whitelist: ['auth'] // Optional: Only these reducers will be saved
   // blacklist: ['counter'] // Optional: These reducers will be ignored
 };
