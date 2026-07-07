@@ -1,5 +1,6 @@
 import { generateResponse } from "../config/openRouter.js";
 import { User } from "../models/userModel.js";
+import { Website } from "../models/websiteModel.js";
 import extractJson from "../utils/extractjson.js";
 
 const masterPrompt = `
@@ -180,6 +181,21 @@ export const generateWebsite = async (req, res) => {
     if (!parsed.code) {
       return res.status(400).json({ message: "AI returned invalid response" })
     }
+    const website = await Website.create({
+      user: user._id,
+      title: prompt.slice(0, 60),
+      latestCode: parsed.code,
+      conversation: [
+        { role: "user", content: prompt },
+        { role: "ai", content: parsed.message }
+      ]
+    })
+    user.credits = user.credits - 10
+    await user.save()
+    return res.status(201).json({
+      websiteId: website._id,
+      remainingCredits: user.credits
+    })
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
