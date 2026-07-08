@@ -5,6 +5,7 @@ import Pricing from './pages/Pricing'
 import Dashboard from './pages/Dashboard'
 import Generate from './pages/Generate'
 import WebsiteEditor from './pages/WebsiteEditor'
+import LiveSite from './pages/LiveSite'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/generate" element={<Generate/>} />
         <Route path="/editor/:id" element={<WebsiteEditor/>} />
+        <Route path='/site/:id' element={<LiveSite/>}/>
       </Routes>
     </BrowserRouter>
   )

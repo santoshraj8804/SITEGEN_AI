@@ -26,6 +26,15 @@ const WebsiteEditor = () => {
         "Finalizing Update..."
     ]
 
+    const handleDeploy = async (id) => {
+    try {
+         const result = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/website/deploy/${website._id}`,{withCredentials:true})
+         window.open(`${result.data.url}`,"_blank")
+         
+    } catch (error) {
+         console.log(error)
+    }
+  }
 
     useEffect(() => {
         const intervalId = setInterval(() => {
