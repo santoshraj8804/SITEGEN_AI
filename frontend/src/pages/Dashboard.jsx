@@ -13,6 +13,15 @@ function Dashboard() {
   const [copiedId, setCopiedId] = useState(null)
   const { userData } = useSelector(state => state.user)
 
+  const handleDeploy = async (id) => {
+    try {
+         const result = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/website/deploy/${id}`,{withCredentials:true})
+         window.open(`${result.data.url}`,"_blank")
+         setWebsites((prev)=>prev.map((w)=>w._id === id ? {...w, deployed:true, deployUrl:result.data.url}:w))
+    } catch (error) {
+         console.log(error)
+    }
+  }
 
   useEffect(() => {
     const handleGetAllWebsite = async () => {
@@ -30,6 +39,11 @@ function Dashboard() {
     handleGetAllWebsite()
   }, [])
 
+  const handleCopy = async(site)=>{
+      await navigator.clipboard.writeText(site.deployUrl)
+      setCopiedId(site._id)
+      setTimeout(()=>setCopiedId(null), 2000)
+  }
   return (
     <div className="min-h-screen bg-[#050505] text-white">
       {/* header */}
