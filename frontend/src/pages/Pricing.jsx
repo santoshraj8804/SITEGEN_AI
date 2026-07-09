@@ -58,6 +58,51 @@ const Pricing = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
+    const handlePayment = async (plan) => {
+        if (plan.id === "free") {
+            navigate("/dashboard")
+            return
+        }
+        try {  
+            const amount = plan.id === "enterprise" ? 1499 : 499
+            const result = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/payment/order`, {
+                planId: plan.id,
+                amount: amount,
+                credits: plan.credits
+            }, { withCredentials: true })
+           
+
+            const options = {
+                key: import.meta.env.VITE_RAZORPAY_API_KEY,
+                amount: result.data.amount,
+                currency: 'INR',
+                name: "SiteGen AI",
+                description: `${plan.name} - ${plan.credits} Credits`,
+                order_id: result.data.id,
+
+                handler: async function (response) {
+                    console.log(response)
+                    const verify = await axios.post(
+                        `${import.meta.env.VITE_SERVER_URL}/api/payment/verify`,
+                        response,
+                        { withCredentials: true }
+                    )
+
+                    console.log(verify.data)
+                    dispatch(setUserData(verify.data.user))
+
+                },
+                theme: {
+                    color: "#19173d"
+                }
+            }
+            const rzp = new window.Razorpay(options)
+            rzp.open()
+        } catch (error) {
+            console.log(error)
+            
+        }
+    }
     return (
         <div className='relative min-h-screen overflow-hidden bg-[#050505] text-white px-6 pt-16 pb-24'>
             <div className='absolute inset-0 pointer-events-none'>
